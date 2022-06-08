@@ -42,7 +42,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        return Product::findOrFail($id); //a função findOrFail serve para retornar um 404 quando não existe registro evitando ataques
     }
 
     /**
@@ -54,7 +54,11 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->update($request->all());
+
+        return $product;
     }
 
     /**
@@ -65,6 +69,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Product::destroy($id);
+    }
+
+    //função para pesquisar ]
+
+    public function search($name){
+        return Product::where('name', 'like', '%'.$name.'%')->get();
     }
 }
